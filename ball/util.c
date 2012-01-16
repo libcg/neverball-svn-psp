@@ -370,7 +370,7 @@ void gui_keyboard_lock(void)
 
 char gui_keyboard_char(char c)
 {
-    return lock ? toupper(c) : tolower(c);
+    return lock ? toupper((int)c) : tolower((int)c);
 }
 
 /*---------------------------------------------------------------------------*/

@@ -13,6 +13,7 @@
  */
 
 #include <stdlib.h>
+#include <string.h>
 
 #include "solid_vary.h"
 #include "common.h"

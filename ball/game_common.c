@@ -12,6 +12,9 @@
  * General Public License for more details.
  */
 
+#include <string.h>
+#include <malloc.h>
+
 #include "game_common.h"
 #include "vec3.h"
 #include "config.h"

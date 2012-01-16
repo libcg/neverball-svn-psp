@@ -62,13 +62,17 @@ int video_mode(int f, int w, int h)
     int stencil = config_get_d(CONFIG_REFLECTION)  ? 1 : 0;
     int buffers = config_get_d(CONFIG_MULTISAMPLE) ? 1 : 0;
     int samples = config_get_d(CONFIG_MULTISAMPLE);
+    #ifndef __PSP__
     int vsync   = config_get_d(CONFIG_VSYNC)       ? 1 : 0;
+    #endif
 
     SDL_GL_SetAttribute(SDL_GL_STEREO,             stereo);
     SDL_GL_SetAttribute(SDL_GL_STENCIL_SIZE,       stencil);
     SDL_GL_SetAttribute(SDL_GL_MULTISAMPLEBUFFERS, buffers);
     SDL_GL_SetAttribute(SDL_GL_MULTISAMPLESAMPLES, samples);
+    #ifndef __PSP__
     SDL_GL_SetAttribute(SDL_GL_SWAP_CONTROL,       vsync);
+    #endif
 
     /* Require 16-bit double buffer with 16-bit depth buffer. */
 
@@ -120,8 +124,10 @@ int video_mode(int f, int w, int h)
 
         /* Attempt manual swap control if SDL's is broken. */
 
+        #ifndef __PSP__
         if (vsync && SDL_GL_GetAttribute(SDL_GL_SWAP_CONTROL, &vsync) == -1)
             sync_init();
+        #endif
 
         return 1;
     }

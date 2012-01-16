@@ -12,6 +12,9 @@
  * General Public License for more details.
  */
 
+#include <malloc.h>
+#include <string.h>
+
 #include "gui.h"
 #include "state.h"
 #include "array.h"

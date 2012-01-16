@@ -14,6 +14,7 @@
 
 #include <SDL.h>
 #include <stdio.h>
+#include <string.h>
 
 #include "glext.h"
 
@@ -158,14 +159,14 @@ void glClipPlane4f_(GLenum p, GLfloat a, GLfloat b, GLfloat c, GLfloat d)
 
 #else
 
-    GLdouble v[4];
+    /*GLdouble v[4]; FIXME
 
     v[0] = a;
     v[1] = b;
     v[2] = c;
     v[3] = d;
 
-    glClipPlane(p, v);
+    glClipPlane(p, v);*/
 
 #endif
 }

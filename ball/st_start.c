@@ -12,6 +12,8 @@
  * General Public License for more details.
  */
 
+#include <malloc.h>
+
 #include "gui.h"
 #include "set.h"
 #include "util.h"

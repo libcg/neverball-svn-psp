@@ -15,6 +15,8 @@
 #include <SDL.h>
 #include <math.h>
 #include <assert.h>
+#include <malloc.h>
+#include <string.h>
 
 #include "glext.h"
 #include "vec3.h"
