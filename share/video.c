@@ -97,7 +97,7 @@ int video_mode(int f, int w, int h)
         glViewport(0, 0, w, h);
         glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 
-        glEnable(GL_NORMALIZE);
+        //glEnable(GL_NORMALIZE); FIXME
         glEnable(GL_CULL_FACE);
         glEnable(GL_DEPTH_TEST);
         glEnable(GL_TEXTURE_2D);

@@ -288,7 +288,11 @@ static void ball_pass_inner(struct s_rend *rend,
 {
     /* Sort the inner ball using clip planes. */
 
+    #ifdef __PSP__
+    if      (0)
+    #else
     if      (inner_flags & F_DRAWCLIP)
+    #endif
     {
         glEnable(GL_CLIP_PLANE1);
         ball_draw_inner(rend, pend_M, bill_M, pend_bill_M, t);
@@ -326,7 +330,11 @@ static void ball_pass_solid(struct s_rend *rend,
 {
     /* Sort the solid ball with the inner ball using clip planes. */
 
+    #ifdef __PSP__
+    if      (0)
+    #else
     if      (solid_flags & F_DRAWCLIP)
+    #endif
     {
         glEnable(GL_CLIP_PLANE1);
         ball_draw_solid(rend, ball_M,                 ball_bill_M, t);

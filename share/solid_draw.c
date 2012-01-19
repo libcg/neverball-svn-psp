@@ -259,11 +259,11 @@ void sol_color_mtrl(struct s_rend *rend, int enable)
 {
     if (enable)
     {
-        glEnable(GL_COLOR_MATERIAL);
+        //glEnable(GL_COLOR_MATERIAL); FIXME
     }
     else
     {
-        glDisable(GL_COLOR_MATERIAL);
+        //glDisable(GL_COLOR_MATERIAL); FIXME
 
         /*
          * Well-behaved code sets color to white before disabling
@@ -354,12 +354,12 @@ void sol_apply_mtrl(const struct d_mtrl *mp_draw, struct s_rend *rend)
         if (mp_flags & M_TWO_SIDED)
         {
             glDisable(GL_CULL_FACE);
-            glLightModelf(GL_LIGHT_MODEL_TWO_SIDE, 1);
+            //glLightModelf(GL_LIGHT_MODEL_TWO_SIDE, 1); FIXME
         }
         else
         {
             glEnable(GL_CULL_FACE);
-            glLightModelf(GL_LIGHT_MODEL_TWO_SIDE, 0);
+            //glLightModelf(GL_LIGHT_MODEL_TWO_SIDE, 0); FIXME
         }
     }
 
@@ -367,13 +367,13 @@ void sol_apply_mtrl(const struct d_mtrl *mp_draw, struct s_rend *rend)
 
     if ((mp_flags & M_DECAL) ^ (mq_flags & M_DECAL))
     {
-        if (mp_flags & M_DECAL)
+        /*if (mp_flags & M_DECAL) FIXME
         {
             glEnable(GL_POLYGON_OFFSET_FILL);
             glPolygonOffset(-1.0f, -2.0f);
         }
         else
-            glDisable(GL_POLYGON_OFFSET_FILL);
+            glDisable(GL_POLYGON_OFFSET_FILL);*/
     }
 
     rend->mtrl = *mp_draw;
@@ -803,8 +803,10 @@ static void sol_draw_all(const struct s_draw *draw, struct s_rend *rend, int p)
         {
             glPushMatrix();
             {
+                glDisable(GL_BLEND);
                 sol_transform(draw->vary, draw->vary->bv + bi, draw->shadow_ui);
                 sol_draw_body(draw->bv + bi, rend, p);
+                glEnable(GL_BLEND);
             }
             glPopMatrix();
         }
@@ -842,7 +844,7 @@ void sol_draw(const struct s_draw *draw, struct s_rend *rend, int mask, int test
     rend->shadow = draw->shadowed;
 
     /* Render all opaque geometry, decals last. */
-
+    
     sol_draw_all(draw, rend, 0);
     sol_draw_all(draw, rend, 1);
 
@@ -890,7 +892,6 @@ void sol_back(const struct s_draw *draw,
     if (!(draw && draw->base && draw->base->rc))
         return;
 
-    glDisable(GL_LIGHTING);
     glDepthMask(GL_FALSE);
 
     sol_bill_enable(draw);
