@@ -16,6 +16,7 @@
 
 #ifdef __PSP__
 #include <pspkernel.h>
+#include <psppower.h>
 #endif
 #include <SDL.h>
 #include <stdio.h>
@@ -46,7 +47,7 @@
 #ifdef __PSP__
 
 PSP_MODULE_INFO("Neverball", 0, 1, 1);
-PSP_HEAP_SIZE_MAX();
+PSP_HEAP_SIZE_KB(-1024);
 PSP_MAIN_THREAD_ATTR(THREAD_ATTR_USER | THREAD_ATTR_VFPU);
 
 /* Callbacks */
@@ -478,10 +479,9 @@ int main(int argc, char *argv[])
 {
     #ifdef __PSP__
     SetupCallbacks();
+    scePowerSetClockFrequency(333, 333, 166); // Set the CPU to 333mhz
     #endif
 
-sceKernelDelayThread(3000000);
-printf("init\n");
     SDL_Joystick *joy = NULL;
     int t1, t0;
 
@@ -491,16 +491,13 @@ printf("init\n");
                 fs_error());
         return 1;
     }
-printf("fs\n");
 
     lang_init("neverball");
-printf("lang\n");
 
     opt_parse(argc, argv);
 
     config_paths(opt_data);
     make_dirs_and_migrate();
-printf("dir\n");
 
     /* Initialize SDL. */
 
@@ -509,13 +506,11 @@ printf("dir\n");
         fprintf(stderr, "%s\n", SDL_GetError());
         return 1;
     }
-printf("SDL\n");
 
     /* Intitialize configuration. */
 
     config_init();
     config_load();
-printf("config\n");
 
     /* Initialize joystick. */
 
@@ -525,23 +520,18 @@ printf("config\n");
         if (joy)
             SDL_JoystickEventState(SDL_ENABLE);
     }
-printf("joystick\n");
 
     /* Initialize audio. */
 
     audio_init();
-printf("audio\n");
     tilt_init();
-printf("tilt\n");
 
     /* Initialize video. */
 
     if (!video_init(TITLE, ICON))
         return 1;
-printf("video\n");
 
     init_state(&st_null);
-printf("state\n");
 
     /* Initialize demo playback or load the level. */
 
@@ -580,7 +570,6 @@ printf("state\n");
     }
     else
         goto_state(&st_title);
-printf("title\n");
 
     /* Run the main game loop. */
 
@@ -614,6 +603,10 @@ printf("title\n");
 
     tilt_free();
     SDL_Quit();
+
+    #ifdef __PSP__
+    sceKernelExitGame();
+    #endif
 
     return 0;
 }

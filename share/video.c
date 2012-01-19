@@ -211,7 +211,7 @@ void video_swap(void)
 
         /* Output statistics if configured. */
 
-        if (config_get_d(CONFIG_STATS))
+        //if (config_get_d(CONFIG_STATS)) FIXME
             fprintf(stdout, "%4d %8.4f\n", fps, ms);
     }
 }
