@@ -480,6 +480,8 @@ int main(int argc, char *argv[])
     SetupCallbacks();
     #endif
 
+sceKernelDelayThread(3000000);
+printf("init\n");
     SDL_Joystick *joy = NULL;
     int t1, t0;
 
@@ -489,13 +491,16 @@ int main(int argc, char *argv[])
                 fs_error());
         return 1;
     }
+printf("fs\n");
 
     lang_init("neverball");
+printf("lang\n");
 
     opt_parse(argc, argv);
 
     config_paths(opt_data);
     make_dirs_and_migrate();
+printf("dir\n");
 
     /* Initialize SDL. */
 
@@ -504,11 +509,13 @@ int main(int argc, char *argv[])
         fprintf(stderr, "%s\n", SDL_GetError());
         return 1;
     }
+printf("SDL\n");
 
     /* Intitialize configuration. */
 
     config_init();
     config_load();
+printf("config\n");
 
     /* Initialize joystick. */
 
@@ -518,18 +525,23 @@ int main(int argc, char *argv[])
         if (joy)
             SDL_JoystickEventState(SDL_ENABLE);
     }
+printf("joystick\n");
 
     /* Initialize audio. */
 
     audio_init();
+printf("audio\n");
     tilt_init();
+printf("tilt\n");
 
     /* Initialize video. */
 
     if (!video_init(TITLE, ICON))
         return 1;
+printf("video\n");
 
     init_state(&st_null);
+printf("state\n");
 
     /* Initialize demo playback or load the level. */
 
@@ -568,6 +580,7 @@ int main(int argc, char *argv[])
     }
     else
         goto_state(&st_title);
+printf("title\n");
 
     /* Run the main game loop. */
 

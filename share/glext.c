@@ -82,8 +82,6 @@ int glext_assert(const char *ext)
 
 int glext_init(void)
 {
-    void *ptr = 0;
-
     memset(&gli, 0, sizeof (struct gl_info));
 
     /* Common init. */
@@ -93,6 +91,8 @@ int glext_init(void)
 
 #if !ENABLE_OPENGLES
     /* Desktop init. */
+
+    void *ptr = 0;
 
     if (glext_assert("ARB_multitexture"))
     {
@@ -126,9 +126,13 @@ int glext_init(void)
     if (glext_check("GREMEDY_string_marker"))
         SDL_GL_GFPA(glStringMarkerGREMEDY_, "glStringMarkerGREMEDY");
 
+    #ifdef __PSP__
+    return 1;
+    #else
     return (gli.multitexture &&
             gli.vertex_buffer_object &&
             gli.point_parameters);
+    #endif
 #else
     /* GLES init. */
 
@@ -146,6 +150,7 @@ int glext_init(void)
 
 void glClipPlane4f_(GLenum p, GLfloat a, GLfloat b, GLfloat c, GLfloat d)
 {
+#ifndef __PSP__
 #if ENABLE_OPENGLES
 
     GLfloat v[4];
@@ -159,15 +164,16 @@ void glClipPlane4f_(GLenum p, GLfloat a, GLfloat b, GLfloat c, GLfloat d)
 
 #else
 
-    /*GLdouble v[4]; FIXME
+    GLdouble v[4];
 
     v[0] = a;
     v[1] = b;
     v[2] = c;
     v[3] = d;
 
-    glClipPlane(p, v);*/
+    glClipPlane(p, v);
 
+#endif
 #endif
 }
 
