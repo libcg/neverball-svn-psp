@@ -180,6 +180,7 @@ GLuint make_image_from_file(const char *filename, int fl)
 
     if ((p = image_load(filename, &w, &h, &b)))
     {
+        printf("image: %s %d %d\n", filename, w, h);
         o = make_texture(p, w, h, b, fl);
         free(p);
     }

@@ -26,7 +26,11 @@
 #ifdef __APPLE__
 #include <OpenGL/gl.h>
 #else
+#ifdef __PSP__
 #include <GLES/gl.h>
+#else
+#include <GL/gl.h>
+#endif
 #endif
 
 #ifdef _WIN32

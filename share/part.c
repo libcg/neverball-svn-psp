@@ -223,8 +223,9 @@ void part_step(const float *g, float dt)
 
 void part_draw_coin(struct s_rend *rend)
 {
-    /*const GLfloat c[3] = { 0.0f, 1.0f, 0.0f };
-    GLint s = config_get_d(CONFIG_HEIGHT) / 8;*/
+#ifndef __PSP__
+    const GLfloat c[3] = { 0.0f, 1.0f, 0.0f };
+    GLint s = config_get_d(CONFIG_HEIGHT) / 8;
 
     sol_apply_mtrl(&coin_draw_mtrl, rend);
 
@@ -250,7 +251,7 @@ void part_draw_coin(struct s_rend *rend)
         glVertexPointer(3, GL_FLOAT, sizeof (struct part_draw), coin_draw[0].p);
 #endif
 
-        /*glEnable(GL_POINT_SPRITE); FIXME
+        glEnable(GL_POINT_SPRITE);
         {
             glTexEnvi(GL_POINT_SPRITE, GL_COORD_REPLACE, GL_TRUE);
             glPointParameterfv_(GL_POINT_DISTANCE_ATTENUATION, c);
@@ -258,11 +259,12 @@ void part_draw_coin(struct s_rend *rend)
 
             glDrawArrays(GL_POINTS, 0, PART_MAX_COIN);
         }
-        glDisable(GL_POINT_SPRITE);*/
+        glDisable(GL_POINT_SPRITE);
     }
     glDisableClientState(GL_COLOR_ARRAY);
     glEnableClientState(GL_NORMAL_ARRAY);
     glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+#endif
 }
 
 /*---------------------------------------------------------------------------*/

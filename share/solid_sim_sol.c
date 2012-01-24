@@ -60,9 +60,10 @@ static float v_sol(const float p[3], const float v[3], float r)
     float d = b * b - 4.0f * a * c;
 
 /* HACK: This seems to cause failures to detect low-velocity collision
-         Yet, the potential division by zero below seems fine.
+         Yet, the potential division by zero below seems fine.*/
+    #ifdef __PSP__
     if (fabsf(a) < SMALL) return LARGE;
-*/
+    #endif
 
     if      (d < 0.0f) return LARGE;
     else if (d > 0.0f)
@@ -212,8 +213,8 @@ static float v_side(float Q[3],
     float vn = v_dot(v, n);
     float wn = v_dot(w, n);
     float t  = LARGE;
-
-    if (vn - wn <= 0.0f)
+    
+    if (vn - wn < 0.0f)
     {
         float on = v_dot(o, n);
         float pn = v_dot(p, n);

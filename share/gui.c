@@ -1717,8 +1717,8 @@ static void gui_paint_label(int id)
 
     glPushMatrix();
     {
-        glTranslatef((GLfloat) (widget[id].x + widget[id].w / 2),
-                     (GLfloat) (widget[id].y + widget[id].h / 2), 0.f);
+        //glTranslatef((GLfloat) (widget[id].x + widget[id].w / 2),
+        //             (GLfloat) (widget[id].y + widget[id].h / 2), 0.f);
 
         glScalef(widget[id].scale,
                  widget[id].scale,

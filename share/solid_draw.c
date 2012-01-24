@@ -797,19 +797,21 @@ static void sol_draw_all(const struct s_draw *draw, struct s_rend *rend, int p)
 
     /* Draw all meshes of all bodies matching the given material flags. */
 
+    glDisable(GL_LIGHTING);
+
     for (bi = 0; bi < draw->bc; ++bi)
 
         if (draw->bv[bi].pass[p])
         {
             glPushMatrix();
             {
-                glDisable(GL_BLEND);
                 sol_transform(draw->vary, draw->vary->bv + bi, draw->shadow_ui);
                 sol_draw_body(draw->bv + bi, rend, p);
-                glEnable(GL_BLEND);
             }
             glPopMatrix();
         }
+        
+   glEnable(GL_LIGHTING);
 }
 
 void sol_draw_enable(struct s_rend *rend)

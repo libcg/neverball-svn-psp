@@ -47,7 +47,7 @@
 #ifdef __PSP__
 
 PSP_MODULE_INFO("Neverball", 0, 1, 1);
-PSP_HEAP_SIZE_KB(-1024);
+PSP_HEAP_SIZE_MAX();
 PSP_MAIN_THREAD_ATTR(THREAD_ATTR_USER | THREAD_ATTR_VFPU);
 
 /* Callbacks */
@@ -523,7 +523,7 @@ int main(int argc, char *argv[])
 
     /* Initialize audio. */
 
-    audio_init();
+    //audio_init();
     tilt_init();
 
     /* Initialize video. */
