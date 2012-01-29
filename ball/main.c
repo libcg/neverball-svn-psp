@@ -478,10 +478,15 @@ static void make_dirs_and_migrate(void)
 int main(int argc, char *argv[])
 {
     #ifdef __PSP__
+    /* Activate the HOME button */
+    
     SetupCallbacks();
-    scePowerSetClockFrequency(333, 333, 166); // Set the CPU to 333mhz
+    
+    /* Set the CPU to 333mhz */
+    
+    scePowerSetClockFrequency(333, 333, 166);
     #endif
-
+    
     SDL_Joystick *joy = NULL;
     int t1, t0;
 

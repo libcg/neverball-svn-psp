@@ -14,6 +14,7 @@
 
 #include <SDL.h>
 #include <math.h>
+#include <string.h>
 
 #include "glext.h"
 #include "game.h"
@@ -204,7 +205,9 @@ static void game_draw_balls(struct s_rend *rend,
                           color[ui][1],
                           color[ui][2], 0.5f);
 
+                #ifndef __PSP__ // FIXME
                 mark_draw(rend);
+                #endif
             }
             glPopMatrix();
         }

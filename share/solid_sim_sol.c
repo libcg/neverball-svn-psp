@@ -677,7 +677,7 @@ static int ms_peek(float dt)
 
 float sol_step(struct s_vary *vary, const float *g, float dt, int ui, int *m)
 {
-    float P[3], V[3], v[3], r[3], a[3], d, e, nt, b = 0.0f, tt = dt;
+    float P[3], V[3], v[3], r[3], a[3], d, e, nt, b = 0.0f, tt = dt, t;
     int c;
 
     union cmd cmd;
@@ -697,7 +697,13 @@ float sol_step(struct s_vary *vary, const float *g, float dt, int ui, int *m)
             v_cpy(up->v, v);
             v_sub(r, P, up->p);
 
-            if ((d = v_dot(r, g) / (v_len(r) * v_len(g))) > 0.999f)
+            t = v_len(r) * v_len(g);
+            if (t == 0.f)
+            {
+              t = SMALL;
+            }
+            
+            if ((d = v_dot(r, g) / t) > 0.999f)
             {
                 if ((e = (v_len(up->v) - dt)) > 0.0f)
                 {
