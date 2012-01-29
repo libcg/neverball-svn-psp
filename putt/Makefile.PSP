@@ -69,6 +69,6 @@ BUILD_PRX = 0
 EXTRA_TARGETS = EBOOT.PBP
 PSP_LARGE_MEMORY = 1
 PSP_EBOOT_TITLE = Neverputt SVN
-#PSP_EBOOT_ICON = icon0.png
+PSP_EBOOT_ICON = ../dist/neverputt_64.png
 
 include $(PSPSDK)/lib/build.mak
