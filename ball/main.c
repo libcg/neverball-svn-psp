@@ -523,7 +523,7 @@ int main(int argc, char *argv[])
 
     /* Initialize audio. */
 
-    //audio_init();
+    audio_init();
     tilt_init();
 
     /* Initialize video. */

@@ -279,6 +279,7 @@ static int conf_action(int tok, int val)
 
 static int conf_gui(void)
 {
+
     int id;
 
     /* Initialize the configuration GUI. */
