@@ -1759,10 +1759,9 @@ void gui_paint(int id)
                 draw_enable(GL_FALSE, GL_TRUE, GL_TRUE);
                 gui_paint_rect(id, 0, 0);
 
-                #ifndef __PSP__ // FIXME
-                draw_enable(GL_FALSE, GL_TRUE, GL_TRUE);
-                gui_paint_text(id);
-                #endif
+                // FIXME
+                //draw_enable(GL_FALSE, GL_TRUE, GL_TRUE);
+                //gui_paint_text(id);
 
                 draw_disable();
                 glColor4ub(gui_wht[0], gui_wht[1], gui_wht[2], gui_wht[3]);

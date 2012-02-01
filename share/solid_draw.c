@@ -370,16 +370,18 @@ void sol_apply_mtrl(const struct d_mtrl *mp_draw, struct s_rend *rend)
 
     /* Decal offset. */
 
+    #ifndef __PSP__ // FIXME 
     if ((mp_flags & M_DECAL) ^ (mq_flags & M_DECAL))
     {
-        /*if (mp_flags & M_DECAL) FIXME
+        if (mp_flags & M_DECAL)
         {
             glEnable(GL_POLYGON_OFFSET_FILL);
             glPolygonOffset(-1.0f, -2.0f);
         }
         else
-            glDisable(GL_POLYGON_OFFSET_FILL);*/
+            glDisable(GL_POLYGON_OFFSET_FILL);
     }
+    #endif
 
     rend->mtrl = *mp_draw;
     rend->flags = mp_flags;
