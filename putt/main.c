@@ -337,7 +337,7 @@ int main(int argc, char *argv[])
 
         /* Initialize the audio. */
 
-        audio_init();
+        //audio_init(); FIXME
 
         /* Initialize the video. */
 

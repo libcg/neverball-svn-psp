@@ -15,7 +15,6 @@
 
 /* Random code used in more than one place. */
 
-#include <stdio.h>
 #include "solid_all.h"
 #include "solid_cmd.h"
 #include "solid_vary.h"
@@ -56,7 +55,6 @@ void sol_body_p(float p[3],
 
         if (pp->t == 0.f) // FIXME
         {
-          printf("solid_all.c:58 divide per zero\n");
           s = 1.f / 0.00001f;
         }
           else if (vary->pv[mp->pi].f)
@@ -93,9 +91,18 @@ void sol_body_v(float v[3],
 
             v_sub(v, q, p);
 
-            v[0] /= dt;
-            v[1] /= dt;
-            v[2] /= dt;
+            if (dt == 0.f) // FIXME
+            {
+              v[0] /= 0.00001f;
+              v[1] /= 0.00001f;
+              v[2] /= 0.00001f;
+            }
+            else
+            {
+              v[0] /= dt;
+              v[1] /= dt;
+              v[2] /= dt;
+            }
 
             return;
         }

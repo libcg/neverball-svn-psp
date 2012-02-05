@@ -528,7 +528,7 @@ int main(int argc, char *argv[])
 
     /* Initialize audio. */
 
-    audio_init();
+    //audio_init(); FIXME
     tilt_init();
 
     /* Initialize video. */

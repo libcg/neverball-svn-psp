@@ -1011,7 +1011,8 @@ void sol_bill(const struct s_draw *draw,
 
 void sol_fade(const struct s_draw *draw, struct s_rend *rend, float k)
 {
-    if (k > 0.0f)
+    // FIXME
+    /*if (k > 0.0f)
     {
         glMatrixMode(GL_PROJECTION);
         glPushMatrix();
@@ -1042,7 +1043,7 @@ void sol_fade(const struct s_draw *draw, struct s_rend *rend, float k)
         glPopMatrix();
         glMatrixMode(GL_MODELVIEW);
         glPopMatrix();
-    }
+    }*/
 }
 
 /*---------------------------------------------------------------------------*/

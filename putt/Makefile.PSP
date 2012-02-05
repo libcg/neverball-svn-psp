@@ -11,7 +11,7 @@ USERDIR   := ../neverball-svn/user
 DATADIR   := ../neverball-svn/data
 LOCALEDIR := ../neverball-svn/locale
 
-CFLAGS = -O2 -Wall -G0 -g                                                      \
+CFLAGS = -O2 -G0 -Wall                                                         \
          -D__PSP__                                                             \
          -DCONFIG_USER=\"$(USERDIR)\"                                          \
          -DCONFIG_DATA=\"$(DATADIR)\"                                          \

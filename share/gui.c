@@ -1560,8 +1560,9 @@ static void gui_paint_array(int id)
 
         /* Recursively paint all subwidgets. */
 
-        for (jd = widget[id].car; jd; jd = widget[jd].cdr)
-            gui_paint_text(jd);
+        // FIXME
+        //for (jd = widget[id].car; jd; jd = widget[jd].cdr)
+        //    gui_paint_text(jd);
     }
     glPopMatrix();
 }
