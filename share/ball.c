@@ -377,7 +377,11 @@ static void ball_pass_outer(struct s_rend *rend,
 {
     /* Sort the outer ball with the solid ball using clip planes. */
 
-    if      (outer_flags & F_DRAWCLIP)
+    #ifdef __PSP__
+    if      (0)
+    #else
+    if      (solid_flags & F_DRAWCLIP)
+    #endif
     {
         glEnable(GL_CLIP_PLANE1);
         ball_draw_outer(rend,         pend_M, bill_M,              pend_bill_M, t);

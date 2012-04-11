@@ -146,7 +146,7 @@ void part_init(void)
     glGenBuffers_(1,              &coin_vbo);
     glBindBuffer_(GL_ARRAY_BUFFER, coin_vbo);
     glBufferData_(GL_ARRAY_BUFFER, sizeof (coin_draw),
-                                          coin_draw, GL_DYNAMIC_DRAW);
+                                          coin_draw, GL_STATIC_DRAW);
     glBindBuffer_(GL_ARRAY_BUFFER, 0);
 #endif
 

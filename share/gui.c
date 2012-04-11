@@ -1560,9 +1560,8 @@ static void gui_paint_array(int id)
 
         /* Recursively paint all subwidgets. */
 
-        // FIXME
-        //for (jd = widget[id].car; jd; jd = widget[jd].cdr)
-        //    gui_paint_text(jd);
+        for (jd = widget[id].car; jd; jd = widget[jd].cdr)
+            gui_paint_text(jd);
     }
     glPopMatrix();
 }
@@ -1725,8 +1724,9 @@ static void gui_paint_label(int id)
                  widget[id].scale,
                  widget[id].scale);
 
-        glBindTexture(GL_TEXTURE_2D, widget[id].image);
-        draw_text(id);
+        // FIXME glDrawArrays
+        //glBindTexture(GL_TEXTURE_2D, widget[id].image);
+        //draw_text(id);
     }
     glPopMatrix();
 }
@@ -1760,9 +1760,8 @@ void gui_paint(int id)
                 draw_enable(GL_FALSE, GL_TRUE, GL_TRUE);
                 gui_paint_rect(id, 0, 0);
 
-                // FIXME
-                //draw_enable(GL_FALSE, GL_TRUE, GL_TRUE);
-                //gui_paint_text(id);
+                draw_enable(GL_FALSE, GL_TRUE, GL_TRUE);
+                gui_paint_text(id);
 
                 draw_disable();
                 glColor4ub(gui_wht[0], gui_wht[1], gui_wht[2], gui_wht[3]);
