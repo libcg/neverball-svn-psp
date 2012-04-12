@@ -28,6 +28,8 @@
 
 /*---------------------------------------------------------------------------*/
 
+#ifdef __PSP__
+
 float v_dot(const float * u, const float * v)
 {
     float n;
@@ -197,6 +199,79 @@ void v_mad(float * u, const float * p, const float * v, const float t)
     );
 }
 
+void v_lerp(float * u, const float * v, const float * w, const float a)
+{
+    __asm__ (
+        ".set        push\n"
+        ".set        noreorder\n"
+        "mfc1        $8,   %3\n"
+        "mtv         $8,   s020\n"
+        "lv.s        s000, 0 + %1\n"
+        "lv.s        s001, 4 + %1\n"
+        "lv.s        s002, 8 + %1\n"
+        "lv.s        s010, 0 + %2\n"
+        "lv.s        s011, 4 + %2\n"
+        "lv.s        s012, 8 + %2\n"
+        "vocp.s      s021, s020\n"
+        "vscl.t      c000, c000, s021\n"
+        "vscl.t      c010, c010, s020\n"
+        "vadd.t      c000, c000, c010\n"
+        "sv.s        s000, 0 + %0\n"
+        "sv.s        s001, 4 + %0\n"
+        "sv.s        s002, 8 + %0\n"
+        ".set        pop\n"
+        : "=m"(*u)
+        : "m"(*v), "m"(*w), "f"(a)
+        : "$8"
+    );
+}
+
+void v_nrm(float *n, const float *v)
+{
+    __asm__ (
+        ".set        push\n"
+        ".set        noreorder\n"
+        "lv.s        s000, 0 + %1\n"
+        "lv.s        s001, 4 + %1\n"
+        "lv.s        s002, 8 + %1\n"
+        "vdot.t      s010, c000, c000\n"
+        "vzero.s     s011\n"
+        "vcmp.s      EZ, s010\n"
+        "vrsq.s      s010, s010\n"
+        "vcmovt.s    s010, s011, 0\n"
+        "vscl.t      c000[-1:1,-1:1,-1:1], c000, s010\n"
+        "sv.s        s000, 0 + %0\n"
+        "sv.s        s001, 4 + %0\n"
+        "sv.s        s002, 8 + %0\n"
+        ".set        pop\n"
+        : "=m"(*n)
+        : "m"(*v)
+    );
+}
+
+void v_crs(float *u, const float *v, const float *w)
+{
+    __asm__ (
+        ".set        push\n"
+        ".set        noreorder\n"
+        "lv.s        s010, 0 + %1\n"
+        "lv.s        s011, 4 + %1\n"
+        "lv.s        s012, 8 + %1\n"
+        "lv.s        s020, 0 + %2\n"
+        "lv.s        s021, 4 + %2\n"
+        "lv.s        s022, 8 + %2\n"
+        "vcrsp.t     c000, c010, c020\n"
+        "sv.s        s000, 0 + %0\n"
+        "sv.s        s001, 4 + %0\n"
+        "sv.s        s002, 8 + %0\n"
+        ".set        pop\n"
+        : "=m"(*u)
+        : "m"(*v), "m"(*w)
+    );
+}
+
+#else
+
 void v_nrm(float *n, const float *v)
 {
     float d = v_len(v);
@@ -221,6 +296,8 @@ void v_crs(float *u, const float *v, const float *w)
     u[1] = v[2] * w[0] - v[0] * w[2];
     u[2] = v[0] * w[1] - v[1] * w[0];
 }
+
+#endif // __PSP__
 
 /*---------------------------------------------------------------------------*/
 

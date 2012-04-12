@@ -99,13 +99,13 @@
     (u)[2] = (p)[2] + (v)[2] * (t); \
 } while (0)
 
-#endif // !__PSP__
-
 #define v_lerp(u, v, w, a) do {                    \
     (u)[0] = (v)[0] * (1.0f - (a)) + (w)[0] * (a); \
     (u)[1] = (v)[1] * (1.0f - (a)) + (w)[1] * (a); \
     (u)[2] = (v)[2] * (1.0f - (a)) + (w)[2] * (a); \
 } while (0)
+
+#endif // !__PSP__
 
 #define e_cpy(d, e) do {   \
     v_cpy((d)[0], (e)[0]); \
@@ -140,6 +140,7 @@ void   v_add(float *, const float *, const float *);
 void   v_sub(float *, const float *, const float *);
 void   v_mid(float *, const float *, const float *);
 void   v_mad(float *, const float *, const float *, const float);
+void   v_lerp(float *, const float *, const float *, const float);
 #endif
 
 void   v_nrm(float *, const float *);
