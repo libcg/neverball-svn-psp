@@ -22,16 +22,29 @@
 #define V_RAD(d) (d * V_PI / 180.f)
 #define V_DEG(r) (r * 180.f / V_PI)
 
-#define fsinf(a)      ((float) sinf((float) a))
-#define fcosf(a)      ((float) cosf((float) a))
-#define ftanf(a)      ((float) tanf((float) a))
-#define fabsf(a)      ((float) fabsf((float) a))
-#define fsqrtf(a)     ((float) sqrtf((float) a))
-#define fpowf(x,y)    ((float) powf((float) x, (float) y))
-#define fasinf(a)     ((float) asinf((float) a))
-#define facosf(a)     ((float) acosf((float) a))
-#define fmodf(x,y)    ((float) fmodf((float) x, (float) y))
-#define fatan2f(x, y) ((float) atan2f((float) x, (float) y))
+#ifdef __PSP__
+#define fsinf(a)      (sinf(a))
+#define fcosf(a)      (cosf(a))
+#define ftanf(a)      (tanf(a))
+#define fabsf(a)      (fabsf(a))
+#define fsqrtf(a)     (sqrtf(a))
+#define fpowf(x,y)    (powf(x, y))
+#define fasinf(a)     (asinf(a))
+#define facosf(a)     (acosf(a))
+#define fmodf(x,y)    (fmodf(x, y))
+#define fatan2f(x, y) (atan2f(x, y))
+#else
+#define fsinf(a)      ((float) sin((float) a))
+#define fcosf(a)      ((float) cos((float) a))
+#define ftanf(a)      ((float) tan((float) a))
+#define fabsf(a)      ((float) fabs((float) a))
+#define fsqrtf(a)     ((float) sqrt((float) a))
+#define fpowf(x,y)    ((float) pow((float) x, (float) y))
+#define fasinf(a)     ((float) asin((float) a))
+#define facosf(a)     ((float) acos((float) a))
+#define fmodf(x,y)    ((float) fmod((float) x, (float) y))
+#define fatan2f(x, y) ((float) atan2((float) x, (float) y))
+#endif
 
 /*---------------------------------------------------------------------------*/
 

@@ -209,12 +209,14 @@ static void draw_rect(int id)
 
 static void draw_text(int id)
 {
-    glDrawArrays(GL_TRIANGLE_STRIP, id * WIDGET_VERT + RECT_VERT, TEXT_VERT);
+    // FIXME
+    //glDrawArrays(GL_TRIANGLE_STRIP, id * WIDGET_VERT + RECT_VERT, TEXT_VERT);
 }
 
 static void draw_image(int id)
 {
-    glDrawArrays(GL_TRIANGLE_STRIP, id * WIDGET_VERT + RECT_VERT, IMAGE_VERT);
+    // FIXME
+    //glDrawArrays(GL_TRIANGLE_STRIP, id * WIDGET_VERT + RECT_VERT, IMAGE_VERT);
 }
 
 static void draw_disable(void)
@@ -1724,9 +1726,8 @@ static void gui_paint_label(int id)
                  widget[id].scale,
                  widget[id].scale);
 
-        // FIXME glDrawArrays
-        //glBindTexture(GL_TEXTURE_2D, widget[id].image);
-        //draw_text(id);
+        glBindTexture(GL_TEXTURE_2D, widget[id].image);
+        draw_text(id);
     }
     glPopMatrix();
 }

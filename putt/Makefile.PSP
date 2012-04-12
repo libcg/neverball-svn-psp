@@ -1,74 +1,26 @@
-PSPSDK=$(shell psp-config --pspsdk-path)
-PSPDIR=$(shell psp-config --psp-prefix)
-TARGET = Neverputt
-LIBS = ../psp/lib/libpng.a ../psp/lib/libjpeg.a ../psp/lib/libz.a              \
-       ../psp/lib/libSDL.a ../psp/lib/libSDL_ttf.a ../psp/lib/libfreetype.a    \
-       ../psp/lib/libvorbisidec.a ../psp/lib/libogg.a ../psp/lib/libGL.a       \
-       ../psp/lib/libpspirkeyb.a -lm -lpspaudio -lpspgu -lpsppower -lpsphprm   \
-       -lpsprtc -lpspfpu -lpspvfpu
-       
-USERDIR   := ../neverball-svn/user
-DATADIR   := ../neverball-svn/data
-LOCALEDIR := ../neverball-svn/locale
+include ../share.mk.PSP
 
-CFLAGS = -O2 -G0 -Wall                                                         \
-         -D__PSP__                                                             \
-         -DCONFIG_USER=\"$(USERDIR)\"                                          \
-         -DCONFIG_DATA=\"$(DATADIR)\"                                          \
-         -DCONFIG_LOCALE=\"$(LOCALEDIR)\"                                      \
-         -I../psp/include/SDL -I../psp/include -I../share
+TARGET = neverputt
 
-OBJS =                   \
-	../share/lang.o        \
-	../share/st_resol.o    \
-	../share/vec3.o        \
-	../share/base_image.o  \
-	../share/image.o       \
-	../share/solid_base.o  \
-	../share/solid_vary.o  \
-	../share/solid_draw.o  \
-	../share/solid_cmd.o   \
-	../share/solid_all.o   \
-	../share/part.o        \
-	../share/geom.o        \
-	../share/ball.o        \
-	../share/base_config.o \
-	../share/config.o      \
-	../share/video.o       \
-	../share/glext.o       \
-	../share/binary.o      \
-	../share/audio.o       \
-	../share/state.o       \
-	../share/gui.o         \
-	../share/text.o        \
-	../share/common.o      \
-	../share/syswm.o       \
-	../share/list.o        \
-	../share/fs_common.o   \
-	../share/fs_png.o      \
-	../share/fs_jpg.o      \
-	../share/fs_rwops.o    \
-	../share/fs_ov.o       \
-	../share/dir.o         \
-	../share/array.o       \
-	../share/sync.o        \
-	hud.o                  \
-	game.o                 \
-	hole.o                 \
-	course.o               \
-	st_all.o               \
-	st_conf.o              \
+CFLAGS = \
+    $(COMMON_CFLAGS) \
+    -DCONFIG_USER=\"../neverball-svn/user\" \
+    -DCONFIG_DATA=\"../neverball-svn/data\" \
+    -DCONFIG_LOCALE=\"../neverball-svn/locale\"
+
+LIBS = $(COMMON_LIBS)
+
+OBJS = \
+    $(COMMON_OBJS) \
+	hud.o          \
+	game.o         \
+	hole.o         \
+	course.o       \
+	st_all.o       \
+	st_conf.o      \
 	main.o
 
-OBJS +=                    \
-  ../share/solid_sim_sol.o \
-  ../share/fs_stdio.o
-
-PSP_FW_VERSION = 500
-BUILD_PRX = 1
-EXTRA_TARGETS = EBOOT.PBP
-PSP_LARGE_MEMORY = 1
 PSP_EBOOT_TITLE = Neverputt SVN
 PSP_EBOOT_ICON = ../dist/neverputt_64.png
-
+    
 include $(PSPSDK)/lib/build.mak

@@ -1,0 +1,57 @@
+Hello, GeeckoDev talking to you.
+
+Here's a WIP port of the famous games named Neverball and Neverputt.
+The website is here :
+
+    http://neverball.org
+
+This work is based on the current SVN version, revision r3733.
+The EBOOTs are not signed since psp-prxtool crashes when building the prx.
+
+* STATUS *
+
+What does REALLY work ?
+- Controls
+- User data
+- Gameplay
+
+What works A LITTLE ?
+- 3D rendering (no lighting, bad object clipping, and even more)
+- Sound (causes some crashes but works well, desactivated in this release)
+- Physics (causes the framerate to be sometimes _low_)
+
+What does NOT work ?
+- Font rendering (I really don't know why) and screen fade.
+
+* IMPORTANT NOTES *
+
+If you are lost in the menu, well, play the real game.
+
+These games are provided with all the data. Some textures has been resized
+to gain some memory. Neverputt shares this data with Neverball, so the first one
+need the other to work properly.
+
+It is compiled with the flag PSP_LARGE_MEMORY set to 1. Thus, I'm not really
+sure that this game runs on fat PSPs, please tell me!
+
+Crashes will surely happen. If so, please send me some exception reports thanks
+to psplink, to my personal mail :
+
+    geecko.dev@free.fr
+
+The source code is available in my Git repo :
+    
+    https://github.com/GeeckoDev/Neverball-svn
+
+* CONTROLS *
+
+Analog: navigate / tilt / aim
+Cross: validate / turn fast / shoot
+L/R: turn
+Select: camera mode
+Start: quit / pause
+
+* CREDITS *
+
+Thanks to nevercorner.net
+Also cheers to artart78 and m-cid for the help :)

@@ -1,0 +1,61 @@
+PSPSDK=$(shell psp-config --pspsdk-path)
+
+COMMON_CFLAGS = \
+    -O2 -G0 -Wall -D__PSP__ \
+    -I../psp/include/SDL -I../psp/include -I../share
+
+COMMON_LIBS = \
+    ../psp/lib/libpng.a ../psp/lib/libjpeg.a ../psp/lib/libz.a \
+    ../psp/lib/libSDL.a ../psp/lib/libSDL_ttf.a ../psp/lib/libfreetype.a \
+    ../psp/lib/libvorbisidec.a ../psp/lib/libogg.a \
+    ../psp/lib/libGL.a ../psp/lib/libpspirkeyb.a \
+    -lm -lpspaudio -lpspgu -lpsppower -lpsphprm -lpsprtc -lpspfpu -lpspvfpu
+       
+COMMON_OBJS = \
+	../share/lang.o          \
+	../share/st_resol.o      \
+	../share/vec3.o          \
+	../share/base_image.o    \
+	../share/image.o         \
+	../share/solid_base.o    \
+	../share/solid_vary.o    \
+	../share/solid_draw.o    \
+	../share/solid_cmd.o     \
+	../share/solid_all.o     \
+	../share/part.o          \
+	../share/geom.o          \
+	../share/item.o          \
+	../share/ball.o          \
+	../share/base_config.o   \
+	../share/config.o        \
+	../share/video.o         \
+	../share/glext.o         \
+	../share/binary.o        \
+	../share/audio.o         \
+	../share/state.o         \
+	../share/gui.o           \
+	../share/text.o          \
+	../share/common.o        \
+	../share/keynames.o      \
+	../share/syswm.o         \
+	../share/list.o          \
+	../share/queue.o         \
+	../share/cmd.o           \
+	../share/array.o         \
+	../share/dir.o           \
+	../share/fs_common.o     \
+	../share/fs_png.o        \
+	../share/fs_jpg.o        \
+	../share/fs_rwops.o      \
+	../share/fs_ov.o         \
+	../share/dir.o           \
+	../share/array.o         \
+	../share/sync.o          \
+	../share/solid_sim_sol.o \
+    ../share/fs_stdio.o      \
+    ../share/tilt_null.o
+
+PSP_FW_VERSION = 500
+BUILD_PRX = 1
+PSP_LARGE_MEMORY = 1
+EXTRA_TARGETS = EBOOT.PBP

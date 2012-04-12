@@ -1,0 +1,25 @@
+JOBS = -j4
+
+all:
+	$(MAKE) -C ball -f Makefile.PSP clean
+	$(MAKE) -C ball -f Makefile.PSP $(JOBS)
+	$(MAKE) -C putt -f Makefile.PSP clean
+	$(MAKE) -C putt -f Makefile.PSP $(JOBS)
+
+clean:
+	$(MAKE) -C ball -f Makefile.PSP clean
+	$(MAKE) -C putt -f Makefile.PSP clean
+
+release: all
+	rm -r release/
+	mkdir release/
+	cp README.PSP release/
+	mkdir release/PSP
+	mkdir release/PSP/GAME
+	mkdir release/PSP/GAME/neverball-svn
+	cp ball/EBOOT.PBP release/PSP/GAME/neverball-svn
+	#cp -r data/ release/PSP/GAME/neverball-svn
+	mkdir release/PSP/GAME/neverputt-svn
+	cp putt/EBOOT.PBP release/PSP/GAME/neverputt-svn
+	tar -caf release/neverball-neverputt-psp-$(shell date +%d%m%y).zip \
+	    --directory=release/ PSP/ README.PSP
