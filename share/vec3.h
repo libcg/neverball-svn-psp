@@ -23,6 +23,7 @@
 #define V_DEG(r) (r * 180.f / V_PI)
 
 #ifdef __PSP__
+
 #define fsinf(a)      (sinf(a))
 #define fcosf(a)      (cosf(a))
 #define ftanf(a)      (tanf(a))
@@ -33,7 +34,9 @@
 #define facosf(a)     (acosf(a))
 #define fmodf(x,y)    (fmodf(x, y))
 #define fatan2f(x, y) (atan2f(x, y))
+
 #else
+
 #define fsinf(a)      ((float) sin((float) a))
 #define fcosf(a)      ((float) cos((float) a))
 #define ftanf(a)      ((float) tan((float) a))
@@ -44,9 +47,12 @@
 #define facosf(a)     ((float) acos((float) a))
 #define fmodf(x,y)    ((float) fmod((float) x, (float) y))
 #define fatan2f(x, y) ((float) atan2((float) x, (float) y))
-#endif
+
+#endif // __PSP__
 
 /*---------------------------------------------------------------------------*/
+
+#ifndef __PSP__
 
 #define v_dot(u, v)  ((u)[0] * (v)[0] + (u)[1] * (v)[1] + (u)[2] * (v)[2])
 #define v_len(u)     fsqrtf(v_dot(u, u))
@@ -93,6 +99,8 @@
     (u)[2] = (p)[2] + (v)[2] * (t); \
 } while (0)
 
+#endif // !__PSP__
+
 #define v_lerp(u, v, w, a) do {                    \
     (u)[0] = (v)[0] * (1.0f - (a)) + (w)[0] * (a); \
     (u)[1] = (v)[1] * (1.0f - (a)) + (w)[1] * (a); \
@@ -121,6 +129,18 @@
 } while (0)
 
 /*---------------------------------------------------------------------------*/
+
+#ifdef __PSP__
+float  v_dot(const float *, const float *);
+float  v_len(const float *);
+void   v_cpy(float *, const float *);
+void   v_inv(float *, const float *);
+void   v_scl(float *, const float *, const float);
+void   v_add(float *, const float *, const float *);
+void   v_sub(float *, const float *, const float *);
+void   v_mid(float *, const float *, const float *);
+void   v_mad(float *, const float *, const float *, const float);
+#endif
 
 void   v_nrm(float *, const float *);
 void   v_crs(float *, const float *, const float *);

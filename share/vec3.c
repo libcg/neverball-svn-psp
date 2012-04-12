@@ -28,6 +28,175 @@
 
 /*---------------------------------------------------------------------------*/
 
+float v_dot(const float * u, const float * v)
+{
+    float n;
+    
+    __asm__ (
+        ".set        push\n"
+        ".set        noreorder\n"
+        "lv.s        s000, 0 + %1\n"
+        "lv.s        s001, 4 + %1\n"
+        "lv.s        s002, 8 + %1\n"
+        "lv.s        s010, 0 + %2\n"
+        "lv.s        s011, 4 + %2\n"
+        "lv.s        s012, 8 + %2\n"
+        "vdot.t      s000, c000, c010\n"
+        "sv.s        s000, %0\n"
+        ".set        pop\n"
+        : "=m"(n)
+        : "m"(*u), "m"(*v)
+    );
+    
+    return n;
+}
+
+float v_len(const float * v)
+{
+    float n;
+
+    __asm__ (
+        ".set        push\n"
+        ".set        noreorder\n"
+        "lv.s        s000, 0 + %1\n"
+        "lv.s        s001, 4 + %1\n"
+        "lv.s        s002, 8 + %1\n"
+        "vdot.t      s000, c000, c000\n"
+        "vsqrt.s     s000, s000\n"
+        "sv.s        s000, %0\n"
+        ".set        pop\n"
+        : "=m"(n)
+        : "m"(*v)
+    );
+    
+    return n;
+}
+
+void v_cpy(float * u, const float * v)
+{
+    u[0] = v[0];
+    u[1] = v[1];
+    u[2] = v[2];
+}
+
+void v_inv(float * u, const float * v)
+{
+    u[0] = -v[0];
+    u[1] = -v[1];
+    u[2] = -v[2];
+}
+
+void v_scl(float * u, const float * v, const float k)
+{
+    __asm__ (
+        ".set        push\n"
+        ".set        noreorder\n"
+        "mfc1        $8,   %2\n"
+        "mtv         $8,   s010\n"
+        "lv.s        s000, 0 + %1\n"
+        "lv.s        s001, 4 + %1\n"
+        "lv.s        s002, 8 + %1\n"
+        "vscl.t      c000, c000, s010\n"
+        "sv.s        s000, 0 + %0\n"
+        "sv.s        s001, 4 + %0\n"
+        "sv.s        s002, 8 + %0\n"
+        ".set        pop\n"
+        : "=m"(*u)
+        : "m"(*v), "f"(k)
+        : "$8"
+    );
+}
+
+void v_add(float * u, const float * v, const float * w)
+{
+    __asm__ (
+        ".set        push\n"
+        ".set        noreorder\n"
+        "lv.s        s000, 0 + %1\n"
+        "lv.s        s001, 4 + %1\n"
+        "lv.s        s002, 8 + %1\n"
+        "lv.s        s010, 0 + %2\n"
+        "lv.s        s011, 4 + %2\n"
+        "lv.s        s012, 8 + %2\n"
+        "vadd.t      c000, c000, c010\n"
+        "sv.s        s000, 0 + %0\n"
+        "sv.s        s001, 4 + %0\n"
+        "sv.s        s002, 8 + %0\n"
+        ".set        pop\n"
+        : "=m"(*u)
+        : "m"(*v), "m"(*w)
+    );
+}
+
+void v_sub(float * u, const float * v, const float * w)
+{
+    __asm__ (
+        ".set        push\n"
+        ".set        noreorder\n"
+        "lv.s        s000, 0 + %1\n"
+        "lv.s        s001, 4 + %1\n"
+        "lv.s        s002, 8 + %1\n"
+        "lv.s        s010, 0 + %2\n"
+        "lv.s        s011, 4 + %2\n"
+        "lv.s        s012, 8 + %2\n"
+        "vsub.t      c000, c000, c010\n"
+        "sv.s        s000, 0 + %0\n"
+        "sv.s        s001, 4 + %0\n"
+        "sv.s        s002, 8 + %0\n"
+        ".set        pop\n"
+        : "=m"(*u)
+        : "m"(*v), "m"(*w)
+    );
+}
+
+void v_mid(float * u, const float * v, const float * w)
+{
+    __asm__ (
+        ".set        push\n"
+        ".set        noreorder\n"
+        "lv.s        s000, 0 + %1\n"
+        "lv.s        s001, 4 + %1\n"
+        "lv.s        s002, 8 + %1\n"
+        "lv.s        s010, 0 + %2\n"
+        "lv.s        s011, 4 + %2\n"
+        "lv.s        s012, 8 + %2\n"
+        "vadd.t      c000, c000, c010\n"
+        "vrcp.s      s010, s011[2]\n"
+        "vscl.t      c000, c000, s010\n"
+        "sv.s        s000, 0 + %0\n"
+        "sv.s        s001, 4 + %0\n"
+        "sv.s        s002, 8 + %0\n"
+        ".set        pop\n"
+        : "=m"(*u)
+        : "m"(*v), "m"(*w)
+    );
+}
+
+void v_mad(float * u, const float * p, const float * v, const float t)
+{
+    __asm__ (
+        ".set        push\n"
+        ".set        noreorder\n"
+        "mfc1        $8,   %3\n"
+        "mtv         $8,   s020\n"
+        "lv.s        s000, 0 + %1\n"
+        "lv.s        s001, 4 + %1\n"
+        "lv.s        s002, 8 + %1\n"
+        "lv.s        s010, 0 + %2\n"
+        "lv.s        s011, 4 + %2\n"
+        "lv.s        s012, 8 + %2\n"
+        "vscl.t      c010, c010, s020\n"
+        "vadd.t      c000, c000, c010\n"
+        "sv.s        s000, 0 + %0\n"
+        "sv.s        s001, 4 + %0\n"
+        "sv.s        s002, 8 + %0\n"
+        ".set        pop\n"
+        : "=m"(*u)
+        : "m"(*p), "m"(*v), "f"(t)
+        : "$8"
+    );
+}
+
 void v_nrm(float *n, const float *v)
 {
     float d = v_len(v);
