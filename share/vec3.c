@@ -30,6 +30,175 @@
 
 #ifdef __PSP__
 
+float vfpu_sinf(const float a)
+{
+    float d;
+
+    __asm__ (
+        ".set        push\n"
+        ".set        noreorder\n"
+        "lv.s        s000, %1\n"
+        "vcst.s      s001, VFPU_2_PI\n"
+        "vmul.s      s000, s000, s001\n"
+        "vsin.s      s000, s000\n"
+        "sv.s        s000, %0\n"
+        ".set        pop\n"
+        : "=m"(d)
+        : "m"(a)
+    );
+
+    return (d);
+}
+
+float vfpu_cosf(const float a)
+{
+    float d;
+
+    __asm__ (
+        ".set        push\n"
+        ".set        noreorder\n"
+        "lv.s        s000, %1\n"
+        "vcst.s      s001, VFPU_2_PI\n"
+        "vmul.s      s000, s000, s001\n"
+        "vcos.s      s000, s000\n"
+        "sv.s        s000, %0\n"
+        ".set        pop\n"
+        : "=m"(d)
+        : "m"(a)
+    );
+
+    return (d);
+}
+
+float vfpu_tanf(const float a)
+{
+    float d;
+    
+    __asm__ (
+        ".set        push\n"
+        ".set        noreorder\n"
+        "lv.s        s000, %1\n"
+        "vcst.s      s001, VFPU_2_PI\n"
+        "vmul.s      s000, s000, s001\n"
+        "vrot.p      c002, s000, [c, s]\n"
+        "vdiv.s      s000, s003, s002\n"
+        "sv.s        s000, %0\n"
+        ".set        pop\n"
+        : "=m"(d)
+        : "m"(a)
+    );
+    
+    return d;
+}
+
+float vfpu_fabsf(const float a)
+{
+    float d;
+    
+    __asm__ (
+        ".set        push\n"
+        ".set        noreorder\n"
+        "lv.s        s000, %1\n"
+        "vabs.s      s000, s000\n"
+        "sv.s        s000, %0\n"
+        ".set        pop\n"
+        : "=m"(d)
+        : "m"(a)
+    );
+    
+    return d;
+}
+
+float vfpu_powf(const float x, const float y)
+{
+    float d;
+    
+    __asm__ (
+        ".set        push\n"
+        ".set        noreorder\n"
+        "lv.s        s000, %1\n"
+        "lv.s        s001, %2\n"
+        "vlog2.s     s000, s000\n"
+        "vmul.s      s000, s000, s001\n"
+        "vexp2.s     s000, s000\n"
+        "sv.s        s000, %0\n"
+        ".set        pop\n"
+        : "=m"(d)
+        : "m"(x), "m"(y)
+    );
+    
+    return d;
+}
+
+float vfpu_asinf(const float a)
+{
+    float d;
+    
+    __asm__ (
+        ".set        push\n"
+        ".set        noreorder\n"
+        "lv.s        s000, %1\n"
+        "vcst.s      s001, VFPU_SQRT1_2\n"
+        "vcst.s      s002, VFPU_PI_2\n"
+        "vcmp.s      LT, s000[|x|], s001\n"
+        "vmul.s      s003, s000, s000\n"
+        "vsgn.s      s001, s000\n"
+        "bvtl        0, 0f\n"
+        "vasin.s     s000, s000\n"
+        "vocp.s      s003, s003\n"
+        "vsqrt.s     s003, s003\n"
+        "vmul.s      s002, s002, s001\n"
+        "vasin.s     s003, s003\n"
+        "vocp.s      s000, s003\n"
+    "0:\n"
+        "vmul.s      s000, s000, s002\n"
+        "sv.s        s000, %0\n"
+        ".set        pop\n"
+        : "=m"(d)
+        : "m"(a)
+    );
+    
+    return d;
+}
+
+float vfpu_acosf(const float a)
+{
+    float d;
+    
+    __asm__ (
+        ".set        push\n"
+        ".set        noreorder\n"
+        "lv.s        s000, %1\n"
+        "vcst.s      s001, VFPU_SQRT1_2\n"
+        "vcst.s      s002, VFPU_PI_2\n"
+        "vcmp.s      LT, s000[|x|], s001\n"
+        "vmul.s      s003, s000, s000\n"
+        "vsgn.s      s001, s000\n"
+        "bvtl        0, 0f\n"
+        "vasin.s     s000, s000\n"
+        "vocp.s      s003, s003\n"
+        "vsqrt.s     s003, s003\n"
+        "vasin.s     s003, s003\n"
+        "vocp.s      s000, s003\n"
+        "vmul.s      s000, s000, s001\n"
+    "0:\n"
+        "vocp.s      s000, s000\n"
+        "vmul.s      s000, s000, s002\n"
+        "sv.s        s000, %0\n"
+        ".set        pop\n"
+        : "=m"(d)
+        : "m"(a)
+    );
+    
+    return d;
+}
+
+#endif
+
+/*---------------------------------------------------------------------------*/
+
+#ifdef __PSP__
+
 float v_dot(const float * u, const float * v)
 {
     float n;

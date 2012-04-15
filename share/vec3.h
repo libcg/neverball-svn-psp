@@ -24,16 +24,24 @@
 
 #ifdef __PSP__
 
-#define fsinf(a)      (sinf(a))
-#define fcosf(a)      (cosf(a))
-#define ftanf(a)      (tanf(a))
-#define fabsf(a)      (fabsf(a))
-#define fsqrtf(a)     (sqrtf(a))
-#define fpowf(x,y)    (powf(x, y))
-#define fasinf(a)     (asinf(a))
-#define facosf(a)     (acosf(a))
-#define fmodf(x,y)    (fmodf(x, y))
-#define fatan2f(x, y) (atan2f(x, y))
+float vfpu_sinf(const float a);
+float vfpu_cosf(const float a);
+float vfpu_tanf(const float a);
+float vfpu_fabsf(const float a);
+float vfpu_powf(const float x, const float y);
+float vfpu_asinf(const float a);
+float vfpu_acosf(const float a);
+
+#define fsinf(a)      (vfpu_sinf(a))
+#define fcosf(a)      (vfpu_cosf(a))
+#define ftanf(a)      (vfpu_tanf(a))
+#define fabsf(a)      (vfpu_fabsf(a))
+#define fsqrtf(a)     (sqrtf(a)) // faster on cpu
+#define fpowf(x,y)    (vfpu_powf(x, y))
+#define fasinf(a)     (vfpu_asinf(a))
+#define facosf(a)     (vfpu_acosf(a))
+#define fmodf(x,y)    (fmodf(x, y)) // faster on cpu
+#define fatan2f(x, y) (atan2f(x, y)) // too damn difficult
 
 #else
 
