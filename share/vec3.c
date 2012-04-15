@@ -297,9 +297,44 @@ void v_crs(float *u, const float *v, const float *w)
     u[2] = v[0] * w[1] - v[1] * w[0];
 }
 
-#endif // __PSP__
+#endif /* __PSP__ */
 
 /*---------------------------------------------------------------------------*/
+
+#ifdef __PSP__
+
+#include <string.h>
+
+void m_cpy(float *M, const float *N)
+{
+    memcpy(M, N, 16 * sizeof(float));
+}
+
+void m_xps(float *M, const float *N)
+{
+    __asm__ (
+        ".set        push\n"
+        ".set        noreorder\n"
+        "ulv.q       c000,  0 + %1\n"
+        "ulv.q       c010, 16 + %1\n"
+        "ulv.q       c020, 32 + %1\n"
+        "ulv.q       c030, 48 + %1\n"
+        "usv.q       r000,  0 + %0\n"
+        "usv.q       r001, 16 + %0\n"
+        "usv.q       r002, 32 + %0\n"
+        "usv.q       r003, 48 + %0\n"
+        ".set        pop\n"
+        : "=m"(*M)
+        : "m"(*N)
+    );
+}
+
+/* Only used by mapc, so there is no vfpu version
+ *
+ * int  m_inv(float *I, const float *N);
+ */
+
+#else
 
 void m_cpy(float *M, const float *N)
 {
@@ -316,6 +351,8 @@ void m_xps(float *M, const float *N)
     M[8] = N[2]; M[9] = N[6]; M[A] = N[A]; M[B] = N[E];
     M[C] = N[3]; M[D] = N[7]; M[E] = N[B]; M[F] = N[F];
 }
+
+#endif /* __PSP__ */
 
 int  m_inv(float *I, const float *N)
 {
@@ -406,6 +443,39 @@ int  m_inv(float *I, const float *N)
 
 /*---------------------------------------------------------------------------*/
 
+#ifdef __PSP__
+
+void m_ident(float *M)
+{
+    __asm__ (
+        ".set        push\n"
+        ".set        noreorder\n"
+        "vmidt.q     e000\n"
+        "usv.q        c000,  0 + %0\n"
+        "usv.q        c010, 16 + %0\n"
+        "usv.q        c020, 32 + %0\n"
+        "usv.q        c030, 48 + %0\n"
+        ".set        pop\n"
+        : "=m"(*M)
+    );
+}
+
+void m_basis(float *M,
+             const float e0[3],
+             const float e1[3],
+             const float e2[3])
+{
+    /* Only reorganized a bit to make a better use of the cache */
+
+    M[0] = e0[0]; M[1] = e0[1]; M[2] = e0[2]; M[3] = 0.f;
+    M[4] = e1[0]; M[5] = e1[1]; M[6] = e1[2]; M[7] = 0.f;
+    M[8] = e2[0]; M[9] = e2[1]; M[A] = e2[2]; M[B] = 0.f;
+    
+    M[C] = M[D] = M[E] = 0.f; M[F] = 1.f;
+}
+
+#else
+
 void m_ident(float *M)
 {
     M[0] = 1.f; M[4] = 0.f; M[8] = 0.f; M[C] = 0.f;
@@ -425,7 +495,31 @@ void m_basis(float *M,
     M[3] =   0.f; M[7] =   0.f; M[B] =   0.f; M[F] = 1.f;
 }
 
+#endif /* __PSP__ */
+
 /*---------------------------------------------------------------------------*/
+
+#ifdef __PSP__
+
+void m_xlt(float *M, const float *v)
+{
+    m_ident(M);
+    
+    M[C] = v[0];
+    M[D] = v[1];
+    M[E] = v[2];
+}
+
+void m_scl(float *M, const float *v)
+{
+    m_ident(M);
+    
+    M[0] = v[0];
+    M[5] = v[1];
+    M[A] = v[2];
+}
+
+#else
 
 void m_xlt(float *M, const float *v)
 {
@@ -442,6 +536,8 @@ void m_scl(float *M, const float *v)
     M[2] =  0.f; M[6] =  0.f; M[A] = v[2]; M[E] = 0.f;
     M[3] =  0.f; M[7] =  0.f; M[B] =  0.f; M[F] = 1.f;
 }
+
+#endif /* __PSP__ */
 
 void m_rot(float *M, const float *v, float a)
 {

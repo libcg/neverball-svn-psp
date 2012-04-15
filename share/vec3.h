@@ -48,7 +48,7 @@
 #define fmodf(x,y)    ((float) fmod((float) x, (float) y))
 #define fatan2f(x, y) ((float) atan2((float) x, (float) y))
 
-#endif // __PSP__
+#endif /* __PSP__ */
 
 /*---------------------------------------------------------------------------*/
 
@@ -105,7 +105,7 @@
     (u)[2] = (v)[2] * (1.0f - (a)) + (w)[2] * (a); \
 } while (0)
 
-#endif // !__PSP__
+#endif /* __PSP__ */
 
 #define e_cpy(d, e) do {   \
     v_cpy((d)[0], (e)[0]); \
