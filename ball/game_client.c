@@ -334,8 +334,10 @@ void game_client_sync(fs_file demo_fp)
 
     while ((cmdp = game_proxy_deq()))
     {
+        #ifndef __PSP__ /* Memory Stick I/O causes lag on PSP */
         if (demo_fp)
             cmd_put(demo_fp, cmdp);
+        #endif
 
         game_run_cmd(cmdp);
 

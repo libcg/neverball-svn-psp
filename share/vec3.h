@@ -36,12 +36,12 @@ float vfpu_acosf(const float a);
 #define fcosf(a)      (vfpu_cosf(a))
 #define ftanf(a)      (vfpu_tanf(a))
 #define fabsf(a)      (vfpu_fabsf(a))
-#define fsqrtf(a)     (sqrtf(a)) // faster on cpu
+#define fsqrtf(a)     (sqrtf(a)) /* faster on cpu */
 #define fpowf(x,y)    (vfpu_powf(x, y))
 #define fasinf(a)     (vfpu_asinf(a))
 #define facosf(a)     (vfpu_acosf(a))
-#define fmodf(x,y)    (fmodf(x, y)) // faster on cpu
-#define fatan2f(x, y) (atan2f(x, y)) // too damn difficult
+#define fmodf(x,y)    (fmodf(x, y)) /* faster on cpu */
+#define fatan2f(x, y) (atan2f(x, y)) /* too damn difficult */
 
 #else
 
