@@ -451,10 +451,10 @@ void m_ident(float *M)
         ".set        push\n"
         ".set        noreorder\n"
         "vmidt.q     e000\n"
-        "usv.q        c000,  0 + %0\n"
-        "usv.q        c010, 16 + %0\n"
-        "usv.q        c020, 32 + %0\n"
-        "usv.q        c030, 48 + %0\n"
+        "usv.q       c000,  0 + %0\n"
+        "usv.q       c010, 16 + %0\n"
+        "usv.q       c020, 32 + %0\n"
+        "usv.q       c030, 48 + %0\n"
         ".set        pop\n"
         : "=m"(*M)
     );
@@ -539,6 +539,7 @@ void m_scl(float *M, const float *v)
 
 #endif /* __PSP__ */
 
+// TODO
 void m_rot(float *M, const float *v, float a)
 {
     float u[3];
@@ -578,6 +579,62 @@ void m_rot(float *M, const float *v, float a)
 
 /*---------------------------------------------------------------------------*/
 
+#ifdef __PSP__
+
+void m_mult(float *M, const float *N, const float *O)
+{
+    __asm__ (
+        ".set        push\n"
+        ".set        noreorder\n"
+        "ulv.q       c100,  0 + %1\n"
+        "ulv.q       c110, 16 + %1\n"
+        "ulv.q       c120, 32 + %1\n"
+        "ulv.q       c130, 48 + %1\n"
+        "ulv.q       c200,  0 + %2\n"
+        "ulv.q       c210, 16 + %2\n"
+        "ulv.q       c220, 32 + %2\n"
+        "ulv.q       c230, 48 + %2\n"
+        "vmmul.q     e000, e200, e100\n"
+        "usv.q       c000,  0 + %0\n"
+        "usv.q       c010, 16 + %0\n"
+        "usv.q       c020, 32 + %0\n"
+        "usv.q       c030, 48 + %0\n"
+        ".set        pop\n"
+        : "=m"(*M)
+        : "m"(*N), "m"(*O)
+    );
+}
+
+/* Not used
+ *
+ * void m_pxfm(float *v, const float *M, const float *w);
+ */
+
+void m_vxfm(float *v, const float *M, const float *w)
+{
+    __asm__ (
+        ".set        push\n"
+        ".set        noreorder\n"
+        "ulv.q       c100,  0 + %1\n"
+        "ulv.q       c110, 16 + %1\n"
+        "ulv.q       c120, 32 + %1\n"
+        "lv.s        s010,  0 + %2\n"
+        "lv.s        s011,  4 + %2\n"
+        "lv.s        s012,  8 + %2\n"
+        "vdot.t      s000, r100, c010\n"
+        "vdot.t      s001, r101, c010\n"
+        "vdot.t      s002, r102, c010\n"
+        "sv.s        s000,  0 + %0\n"
+        "sv.s        s001,  4 + %0\n"
+        "sv.s        s002,  8 + %0\n"
+        ".set        pop\n"
+        : "=m"(*v)
+        : "m"(*M), "m"(*w)
+    );
+}
+
+#else
+
 void m_mult(float *M, const float *N, const float *O)
 {
     M[0] = N[0] * O[0] + N[4] * O[1] + N[8] * O[2] + N[C] * O[3];
@@ -616,6 +673,8 @@ void m_vxfm(float *v, const float *M, const float *w)
     v[1] = (w[0] * M[1] + w[1] * M[5] + w[2] * M[9]);
     v[2] = (w[0] * M[2] + w[1] * M[6] + w[2] * M[A]);
 }
+
+#endif /* __PSP__ */
 
 /*---------------------------------------------------------------------------*/
 
