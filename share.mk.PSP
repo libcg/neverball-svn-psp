@@ -2,7 +2,7 @@ PSPSDK=$(shell psp-config --pspsdk-path)
 
 COMMON_CFLAGS = \
     -O2 -G0 -Wall -D__PSP__ \
-    -I../psp/include/SDL -I../psp/include -I../share
+    -I../psp/include/SDL -I../share -I../psp/include
 
 COMMON_LIBS = \
     ../psp/lib/libpng.a ../psp/lib/libjpeg.a ../psp/lib/libz.a \
