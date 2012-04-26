@@ -62,17 +62,17 @@ int video_mode(int f, int w, int h)
     int stencil = config_get_d(CONFIG_REFLECTION)  ? 1 : 0;
     int buffers = config_get_d(CONFIG_MULTISAMPLE) ? 1 : 0;
     int samples = config_get_d(CONFIG_MULTISAMPLE);
-    #ifndef __PSP__
+#ifndef __PSP__
     int vsync   = config_get_d(CONFIG_VSYNC)       ? 1 : 0;
-    #endif
+#endif
 
     SDL_GL_SetAttribute(SDL_GL_STEREO,             stereo);
     SDL_GL_SetAttribute(SDL_GL_STENCIL_SIZE,       stencil);
     SDL_GL_SetAttribute(SDL_GL_MULTISAMPLEBUFFERS, buffers);
     SDL_GL_SetAttribute(SDL_GL_MULTISAMPLESAMPLES, samples);
-    #ifndef __PSP__
+#ifndef __PSP__
     SDL_GL_SetAttribute(SDL_GL_SWAP_CONTROL,       vsync);
-    #endif
+#endif
 
     /* Require 16-bit double buffer with 16-bit depth buffer. */
 
@@ -97,7 +97,9 @@ int video_mode(int f, int w, int h)
         glViewport(0, 0, w, h);
         glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 
-        //glEnable(GL_NORMALIZE); FIXME
+#ifndef __PSP__
+        glEnable(GL_NORMALIZE);
+#endif
         glEnable(GL_CULL_FACE);
         glEnable(GL_DEPTH_TEST);
         glEnable(GL_TEXTURE_2D);
@@ -195,9 +197,9 @@ void video_swap(void)
     {
         /* Round the frames-per-second value to the nearest integer. */
 
-        double k = 1000.0 * frames / ticks;
-        double f = floorf(k);
-        double c = ceilf (k);
+        float k = 1000.f * frames / ticks;
+        float f = floorf(k);
+        float c = ceilf (k);
 
         /* Compute frame time and frames-per-second stats. */
 
@@ -211,7 +213,7 @@ void video_swap(void)
 
         /* Output statistics if configured. */
 
-        //if (config_get_d(CONFIG_STATS)) FIXME
+        if (config_get_d(CONFIG_STATS))
             fprintf(stdout, "%4d %8.4f\n", fps, ms);
     }
 }
@@ -222,7 +224,7 @@ static int grabbed = 0;
 
 void video_set_grab(int w)
 {
-    #ifndef __PSP__
+#ifndef __PSP__
     if (w)
     {
         SDL_EventState(SDL_MOUSEMOTION, SDL_IGNORE);
@@ -235,17 +237,17 @@ void video_set_grab(int w)
 
     SDL_WM_GrabInput(SDL_GRAB_ON);
     SDL_ShowCursor(SDL_DISABLE);
-    #endif
+#endif
 
     grabbed = 1;
 }
 
 void video_clr_grab(void)
 {
-    #ifndef __PSP__
+#ifndef __PSP__
     SDL_WM_GrabInput(SDL_GRAB_OFF);
     SDL_ShowCursor(SDL_ENABLE);
-    #endif
+#endif
     grabbed = 0;
 }
 
@@ -267,10 +269,10 @@ void video_push_persp(float fov, float n, float f)
     GLfloat a = ((GLfloat) config_get_d(CONFIG_WIDTH) /
                  (GLfloat) config_get_d(CONFIG_HEIGHT));
 
-    #ifdef __PSP__ 
+#ifdef __PSP__ 
     /* Clipping issue workaround */
     if (n < 0.9f) n = 0.9f;
-    #endif
+#endif
 
     glMatrixMode(GL_PROJECTION);
     {
