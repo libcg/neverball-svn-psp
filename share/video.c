@@ -196,8 +196,8 @@ void video_swap(void)
         /* Round the frames-per-second value to the nearest integer. */
 
         double k = 1000.0 * frames / ticks;
-        double f = floor(k);
-        double c = ceil (k);
+        double f = floorf(k);
+        double c = ceilf (k);
 
         /* Compute frame time and frames-per-second stats. */
 
@@ -261,11 +261,16 @@ void video_push_persp(float fov, float n, float f)
     GLfloat m[4][4];
 
     GLfloat r = fov / 2 * V_PI / 180;
-    GLfloat s = sin(r);
-    GLfloat c = cos(r) / s;
+    GLfloat s = sinf(r);
+    GLfloat c = cosf(r) / s;
 
     GLfloat a = ((GLfloat) config_get_d(CONFIG_WIDTH) /
                  (GLfloat) config_get_d(CONFIG_HEIGHT));
+
+    #ifdef __PSP__ 
+    /* Clipping issue workaround */
+    if (n < 0.9f) n = 0.9f;
+    #endif
 
     glMatrixMode(GL_PROJECTION);
     {
