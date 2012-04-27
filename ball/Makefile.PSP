@@ -25,7 +25,6 @@ OBJS = \
 	demo.o         \
 	demo_dir.o     \
 	util.o         \
-	speed.o        \
 	st_conf.o      \
 	st_demo.o      \
 	st_save.o      \
