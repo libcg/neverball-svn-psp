@@ -625,7 +625,7 @@ END_FUNC;
 GET_FUNC(CMD_MOVE_TIME)
 {
     cmd->movetime.mi = get_index(fp);
-    cmd->movetime.t  = get_index(fp);
+    cmd->movetime.t  = get_float(fp);
 }
 END_FUNC;
 
