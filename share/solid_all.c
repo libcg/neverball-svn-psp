@@ -53,11 +53,9 @@ void sol_body_p(float p[3],
 
         float s;
 
-        if (pp->t == 0.f) // FIXME
-        {
-          s = 1.f / 0.00001f;
-        }
-          else if (vary->pv[mp->pi].f)
+        if (pp->t == 0.f)
+            s = 1.0e+6f;
+        else if (vary->pv[mp->pi].f)
             s = (mp->t + dt) / pp->t;
         else
             s = mp->t / pp->t;
@@ -91,17 +89,11 @@ void sol_body_v(float v[3],
 
             v_sub(v, q, p);
 
-            if (dt == 0.f) // FIXME
+            if (dt != 0.f)
             {
-              v[0] /= 0.00001f;
-              v[1] /= 0.00001f;
-              v[2] /= 0.00001f;
-            }
-            else
-            {
-              v[0] /= dt;
-              v[1] /= dt;
-              v[2] /= dt;
+                v[0] /= dt;
+                v[1] /= dt;
+                v[2] /= dt;
             }
 
             return;
