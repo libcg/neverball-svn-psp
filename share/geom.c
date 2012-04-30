@@ -209,8 +209,10 @@ static void tex_env_conf(const struct tex_env *env, int enable)
     for (i = 0; i < env->count; i++)
     {
         const struct tex_stage *st = &env->stages[i];
-        /*glActiveTexture_(st->unit); FIXME
-        glClientActiveTexture_(st->unit);*/
+#ifndef __PSP__
+        glActiveTexture_(st->unit);
+        glClientActiveTexture_(st->unit);
+#endif
         env->conf(st->stage, enable);
     }
 
@@ -271,8 +273,10 @@ int tex_env_stage(int stage)
 
             if (st->stage == stage)
             {
-                /*glActiveTexture_(st->unit); FIXME
-                glClientActiveTexture_(st->unit);*/
+#ifndef __PSP__
+                glActiveTexture_(st->unit);
+                glClientActiveTexture_(st->unit);
+#endif
                 return 1;
             }
         }
