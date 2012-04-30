@@ -396,7 +396,9 @@ static void game_draw_fore(struct s_rend *rend,
             game_draw_jumps(rend, gd, M, t);
             game_draw_swchs(rend, draw->vary);
 
+#ifndef __PSP__
             part_draw_coin(rend);
+#endif
             glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
         }
         glDepthMask(GL_TRUE);
@@ -606,7 +608,9 @@ void game_lerp_apply(struct game_lerp *gl, struct game_draw *gd)
 
     /* Particles. */
 
+#ifndef __PSP__
     part_lerp_apply(a);
+#endif
 
     /* Tilt. */
 

@@ -489,14 +489,18 @@ static int null_enter(struct state *st, struct state *prev)
     item_free();
     ball_free();
     shad_free();
+#ifndef __PSP__
     part_free();
+#endif
 
     return 0;
 }
 
 static void null_leave(struct state *st, struct state *next, int id)
 {
+#ifndef __PSP__
     part_init();
+#endif
     shad_init();
     ball_init();
     item_init();

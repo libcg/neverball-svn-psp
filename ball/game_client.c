@@ -121,7 +121,9 @@ static void game_run_cmd(const union cmd *cmd)
                         gd.jump_b = 0;
                 }
 
+#ifndef __PSP__
                 part_step(v, dt);
+#endif
             }
 
             break;
@@ -161,7 +163,9 @@ static void game_run_cmd(const union cmd *cmd)
             hp = vary->hv + cmd->pkitem.hi;
 
             item_color(hp, v);
+#ifndef __PSP__
             part_burst(hp->p, v);
+#endif
 
             hp->t = ITEM_NONE;
 
@@ -426,7 +430,9 @@ int  game_client_init(const char *file_name)
 
     /* Initialize particles. */
 
+#ifndef __PSP__
     part_reset();
+#endif
 
     /* Initialize command state. */
 

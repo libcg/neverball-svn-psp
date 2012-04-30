@@ -24,6 +24,12 @@
 #include "image.h"
 #include "geom.h"
 
+#ifdef __PSP__
+
+/* Nothing here */
+
+#else
+
 /*---------------------------------------------------------------------------*/
 /*
 #define PARTICLEVBO 1
@@ -223,7 +229,6 @@ void part_step(const float *g, float dt)
 
 void part_draw_coin(struct s_rend *rend)
 {
-#ifndef __PSP__
     const GLfloat c[3] = { 0.0f, 1.0f, 0.0f };
     GLint s = config_get_d(CONFIG_HEIGHT) / 8;
 
@@ -264,7 +269,8 @@ void part_draw_coin(struct s_rend *rend)
     glDisableClientState(GL_COLOR_ARRAY);
     glEnableClientState(GL_NORMAL_ARRAY);
     glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-#endif
 }
 
 /*---------------------------------------------------------------------------*/
+
+#endif /* __PSP__ */
